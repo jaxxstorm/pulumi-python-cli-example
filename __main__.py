@@ -16,6 +16,7 @@ parser.add_argument("name",
                     help="the name of your running webapp")
 
 parser.add_argument("--destroy", action="store_true", default=False)
+parser.add_argument("--preview", action="store_true", default=False)
 
 args = parser.parse_args()
 
@@ -47,6 +48,12 @@ if args.destroy:
     stack.destroy(on_output=print)
     stack.workspace.remove_stack(name)
     print("stack destroy complete")
+    sys.exit()
+    
+if args.preview:
+    print("preview")
+    preview = stack.preview(program=pulumi_program)
+    print(preview.change_summary["create"])
     sys.exit()
 
 print("updating stack...")
